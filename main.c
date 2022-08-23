@@ -6,8 +6,8 @@
 #include <time.h>
 
 //connect 4 game implimentation
-#define COLUMNS 7
-#define ROWS 6
+#define COLUMNS 7 // default = 7;
+#define ROWS 6 // default = 6;
 //const int COLUMNS = 7; // number of columns
 //const int ROWS = 6; //number of rows
 
@@ -31,13 +31,21 @@ int first_turn(){
 // print gameBoard, no return value
 void print_board(int board[ROWS][COLUMNS]){
   printf("\n");
-  printf("-Game Board- \n");
-  printf("1 2 3 4 5 6 7\n\n");
-  for(int i = 0; i<ROWS; i++){
-    for(int j = 0; j<COLUMNS; j++){
-      printf("%d ", board[i][j]);
+  printf("- Game Board --------------------------------------------------------------------------------- \n");
+
+  // create column headers
+  for(int i = 1; i <= COLUMNS; i++)
+  {
+    printf("%d\t", i);
+  }
+  printf("\n\n\n");
+
+  // fill in number in slot
+  for(int i = 0; i < ROWS; i++){
+    for(int j = 0; j < COLUMNS; j++){
+      printf("%d\t", board[i][j]);
     }
-    printf("\n");
+    printf("\n\n\n");
   }
 }
 
@@ -46,10 +54,10 @@ void turn(int board[ROWS][COLUMNS], int player){
   //turn
   int column;
   while(1){
-    printf("Enter column number between 1 and 7: ");
+    printf("Enter column number between 1 and %d: ", COLUMNS);
     scanf("%d", &column);
-    if(column <=7 && column >=1){
-      column -=1;
+    if(column <= COLUMNS && column >= 1){
+      column -= 1;
         if(board[0][column] != 0){ //bounds top
           printf("Invalid Input\n");
           continue;
@@ -59,21 +67,17 @@ void turn(int board[ROWS][COLUMNS], int player){
       printf("Invalid Input\n"); //bounds columns
     }
   }
-  //moves number to the most bottom row
-  if(board[5][column] == 0){
-    board[5][column] = player;
-  }else if(board[4][column] == 0){
-    board[4][column] = player;
-  }else if(board[3][column] == 0){
-    board[3][column] = player;
-  }else if(board[2][column] == 0){
-    board[2][column] = player;
-  }else if(board[1][column] == 0){
-    board[1][column] = player;
-  }else if(board[0][column] == 0){
-    board[0][column] = player;
+
+  //moves number to the most bottom row possible
+  for (int i = ROWS - 1; i >= 0; i--)
+  {
+    if (board[i][column] == 0)
+    {
+      board[i][column] = player;
+      break;
+    }
   }
-    
+
   print_board(board); //print board
 }
 
@@ -100,10 +104,10 @@ int check_board(int board[ROWS][COLUMNS]){
   int checker1 = 0; //checks for player1 win
   int checker2 = 0; // checks for player2 win
   //checks columns for 4
-  for(int j = 0; j<COLUMNS; j++){
+  for(int j = 0; j < COLUMNS; j++){
     checker1 = 0;
     checker2 = 0;
-    for(int i = 0; i<ROWS; i++){
+    for(int i = 0; i < ROWS; i++){
       if (board[i][j] == 1){
         checker1 += 1;
       }else{
@@ -125,7 +129,7 @@ int check_board(int board[ROWS][COLUMNS]){
   for(int i = 0; i<ROWS; i++){
     checker1 = 0;
     checker2 = 0;
-    for(int j = 0; j<COLUMNS; j++){
+    for(int j = 0; j < COLUMNS; j++){
       if (board[i][j] == 1){
         checker1 += 1;
       }else{
@@ -144,12 +148,12 @@ int check_board(int board[ROWS][COLUMNS]){
   }
 
     //check for diagonal right win 
-  for(int i = 0; i<ROWS; i++){
+  for(int i = 0; i < ROWS; i++){
     int k = 0; //row count
     checker1 = 0;
     checker2 = 0;
     for(int j = -2; j<COLUMNS; j++){
-      if(i+j<COLUMNS && k<COLUMNS){ // keeps in bounds
+      if(i+j < COLUMNS && k < COLUMNS){ // keeps in bounds
         if (board[k][i+j] == 1){
           checker1 += 1;
         }else{
@@ -171,11 +175,11 @@ int check_board(int board[ROWS][COLUMNS]){
   }
  
   // check for diagonal left win
-  for(int i = 0; i<ROWS; i++){
+  for(int i = 0; i < ROWS; i++){
     int k = 0; // row count
     checker1 = 0;
     checker2 = 0;
-    for(int j = COLUMNS-1+2; j>=0; j--){ 
+    for(int j = COLUMNS - 1 + 2; j >= 0; j--){ 
       if(j-i>=0 && j-i<COLUMNS){ //keeps in bounds
         if (board[k][j-i] == 1){
           checker1 += 1;
@@ -198,14 +202,14 @@ int check_board(int board[ROWS][COLUMNS]){
   }
   //checks for draw
   int drawchecker = 0;
-  for(int i = 0; i<ROWS; i++){
-    for(int j = 0; j<COLUMNS; j++){
+  for(int i = 0; i < ROWS; i++){
+    for(int j = 0; j < COLUMNS; j++){
       if (board[i][j] != 0){
         drawchecker += 1;
       }
     }
   }
-  if(drawchecker == COLUMNS*ROWS){
+  if(drawchecker == COLUMNS * ROWS){
     return 2; //returns 2 if draw
   }
   return 0; //return 0 if no win
