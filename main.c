@@ -143,59 +143,100 @@ int check_board(int board[ROWS][COLUMNS]){
     }
   }
 
-    //check for diagonal right win 
-  for(int i = 0; i<ROWS; i++){
-    int k = 0; //row count
-    checker1 = 0;
-    checker2 = 0;
-    for(int j = -2; j<COLUMNS; j++){
-      if(i+j<COLUMNS && k<COLUMNS){ // keeps in bounds
-        if (board[k][i+j] == 1){
-          checker1 += 1;
-        }else{
-          checker1 = 0;
-        }
-        if(board[k][i+j] == 2){
-          checker2 += 1;
-        }else{
-          checker2 = 0;
-        }
-      }else{
+  // check diagonals
+  checker1 = 0;
+  checker2 = 0;
+  for(int i = 0; i < ROWS; i++)
+  {
+    for(int j = 0; j < COLUMNS; j++)
+    {
+
+      if (ROWS - i < 4 || COLUMNS - j < 4)
+      {
         continue;
       }
-      if(checker1 == 4 || checker2 == 4){
+      
+      // check right diagonal
+      if (board[i][j] == 1)
+      {
+        checker2 = 0;
+    
+        for (int k = 0; k < 4; k++)
+        {
+          if (board[i+k][j+k] == 1)
+          {
+            checker1 += 1;
+          }
+          else
+          {
+            checker1 = 0;
+            break;
+          }
+        }
+
+        // check left diagonal
+        for (int k = 0; k < 4; k++)
+        {
+          if (board[i+k][j-k] == 1)
+          {
+            checker1 += 1;
+          }
+          else
+          {
+            checker1 = 0;
+            break;
+          }
+        }
+
+        //printf("checker1 = %d\n", checker1);
+      }
+      else if (board[i][j] == 2)
+      {
+        checker1 = 0;
+
+        // check right diagonal
+        for (int k = 0; k < 4; k++)
+        {
+          if (board[i+k][j+k] == 2)
+          {
+            checker2 += 1;
+          }
+          else
+          {
+            checker2 = 0;
+            break;
+          }
+        }
+
+        // check left diagonal
+        for (int k = 0; k < 4; k++)
+        {
+          if (board[i+k][j-k] == 2)
+          {
+            checker2 += 1;
+          }
+          else
+          {
+            checker2 = 0;
+            break;
+          }
+        }
+        //printf("checker2 = %d\n", checker2);
+      }
+      else
+      {
+        checker1 = 0;
+        checker2 = 0;
+      }
+
+      if (checker1 == 4 || checker2 == 4)
+      {
         return 1;
       }
-      k+=1;
+      
     }
   }
- 
-  // check for diagonal left win
-  for(int i = 0; i<ROWS; i++){
-    int k = 0; // row count
-    checker1 = 0;
-    checker2 = 0;
-    for(int j = COLUMNS-1+2; j>=0; j--){ 
-      if(j-i>=0 && j-i<COLUMNS){ //keeps in bounds
-        if (board[k][j-i] == 1){
-          checker1 += 1;
-        }else{
-          checker1 = 0;
-        }
-        if(board[k][j-i] == 2){
-          checker2 += 1;
-        }else{
-          checker2 = 0;
-        }
-      }else{
-        continue;
-      }
-      if(checker1 == 4 || checker2 == 4){
-        return 1;
-      }
-      k += 1;
-    }
-  }
+
   //checks for draw
   int drawchecker = 0;
   for(int i = 0; i<ROWS; i++){
