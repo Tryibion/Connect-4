@@ -6,7 +6,7 @@
 #include <time.h>
 
 //connect 4 game implimentation
-#define COLUMNS 30 // default = 7;
+#define COLUMNS 7 // default = 7;
 #define ROWS 6 // default = 6;
 //const int COLUMNS = 7; // number of columns
 //const int ROWS = 6; //number of rows
