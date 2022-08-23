@@ -173,21 +173,24 @@ int check_board(int board[ROWS][COLUMNS]){
             break;
           }
         }
-
-        // check left diagonal
-        for (int k = 0; k < 4; k++)
+        
+        if (checker1 != 4)
         {
-          if (board[i+k][j-k] == 1)
+          // check left diagonal
+          for (int k = 0; k < 4; k++)
           {
-            checker1 += 1;
-          }
-          else
-          {
-            checker1 = 0;
-            break;
+            if (board[i+k][j-k] == 1)
+            {
+              checker1 += 1;
+            }
+            else
+            {
+              checker1 = 0;
+              break;
+            }
           }
         }
-
+        
         //printf("checker1 = %d\n", checker1);
       }
       else if (board[i][j] == 2)
@@ -208,17 +211,20 @@ int check_board(int board[ROWS][COLUMNS]){
           }
         }
 
-        // check left diagonal
-        for (int k = 0; k < 4; k++)
+        if (checker2 != 4)
         {
-          if (board[i+k][j-k] == 2)
+          // check left diagonal
+          for (int k = 0; k < 4; k++)
           {
-            checker2 += 1;
-          }
-          else
-          {
-            checker2 = 0;
-            break;
+            if (board[i+k][j-k] == 2)
+            {
+              checker2 += 1;
+            }
+            else
+            {
+              checker2 = 0;
+              break;
+            }
           }
         }
         //printf("checker2 = %d\n", checker2);
