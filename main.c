@@ -216,6 +216,12 @@ int check_board(int board[ROWS][COLUMNS]){
 }
 
 int main(void) {
+  if (ROWS < 4 || COLUMNS < 4)
+  {
+    printf("Please change ROWS or COLUMNS to be more than 4 otherwise game will not work.\n\n");
+    return 0;
+  }
+  
   struct player player1; //creates player1
   struct player player2; //creates player2
   int playerTurn; //used for first turn and to switch turns
