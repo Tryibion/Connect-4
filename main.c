@@ -153,37 +153,16 @@ int check_board(int board[ROWS][COLUMNS]){
   for(int i = 0; i < ROWS; i++)
   {
     for(int j = 0; j < COLUMNS; j++)
-    {
-
-      if (ROWS - i < 4 || COLUMNS - j < 4)
-      {
-        continue;
-      }
-      
+    {    
       // check right diagonal
       if (board[i][j] == 1)
       {
         checker2 = 0;
-    
-        for (int k = 0; k < 4; k++)
+        if (ROWS - i >= 4 || COLUMNS - j >= 4)
         {
-          if (board[i+k][j+k] == 1)
-          {
-            checker1 += 1;
-          }
-          else
-          {
-            checker1 = 0;
-            break;
-          }
-        }
-        
-        if (checker1 != 4)
-        {
-          // check left diagonal
           for (int k = 0; k < 4; k++)
           {
-            if (board[i+k][j-k] == 1)
+            if (board[i+k][j+k] == 1)
             {
               checker1 += 1;
             }
@@ -195,32 +174,38 @@ int check_board(int board[ROWS][COLUMNS]){
           }
         }
         
+        if (ROWS - i >= 4 || COLUMNS - j < 4)
+        {
+          if (checker1 != 4)
+          {
+            // check left diagonal
+            for (int k = 0; k < 4; k++)
+            {
+              if (board[i+k][j-k] == 1)
+              {
+                checker1 += 1;
+              }
+              else
+              {
+                checker1 = 0;
+                break;
+              }
+            }
+          }
+        }
+        
         //printf("checker1 = %d\n", checker1);
       }
       else if (board[i][j] == 2)
       {
         checker1 = 0;
 
-        // check right diagonal
-        for (int k = 0; k < 4; k++)
+        if (ROWS - i >= 4 || COLUMNS - j >= 4)
         {
-          if (board[i+k][j+k] == 2)
-          {
-            checker2 += 1;
-          }
-          else
-          {
-            checker2 = 0;
-            break;
-          }
-        }
-
-        if (checker2 != 4)
-        {
-          // check left diagonal
+          // check right diagonal
           for (int k = 0; k < 4; k++)
           {
-            if (board[i+k][j-k] == 2)
+            if (board[i+k][j+k] == 2)
             {
               checker2 += 1;
             }
@@ -228,6 +213,26 @@ int check_board(int board[ROWS][COLUMNS]){
             {
               checker2 = 0;
               break;
+            }
+          }
+        }
+
+        if (ROWS - i >= 4 || COLUMNS - j < 4)
+        {
+          if (checker2 != 4)
+          {
+            // check left diagonal
+            for (int k = 0; k < 4; k++)
+            {
+              if (board[i+k][j-k] == 2)
+              {
+                checker2 += 1;
+              }
+              else
+              {
+                checker2 = 0;
+                break;
+              }
             }
           }
         }
